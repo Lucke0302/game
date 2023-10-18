@@ -26,7 +26,17 @@ class Sprite {
         ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);    
     }
 
+}
+
+class Entity extends Sprite {
+    constructor(position, dimensions, velocity, source, health) {
+        super(position, dimensions, velocity, source);
+        this.health = health;
+        this.onGround = false;
+    }
+
     update(){
+
         // Aplicar a gravidade
         this.velocity.y += gravity;
 
@@ -35,14 +45,32 @@ class Sprite {
                         
         // Evitar que o jogador ultrapasse o chão
         if (this.position.y > bgdimensions.height - this.height) {
-            this.position.y = bgdimensions.height - this.height;
+            this.position.y = bgdimensions.height - this.height;            
+            this.onGround = true;
             this.velocity.y = 0; // Impede que o jogador caia mais
+        }     
+        else{        
+            this.onGround = false;    
+        }       
+        this.position.x += this.velocity.x;
+    }
+
+    jump() {
+        if (this.onGround) {
+            this.velocity.y = -16; // Ajuste a força do pulo conforme necessário
+            this.onGround = false; // Marque o jogador como não estando mais no chão
         }
     }
 
-    clear(){
-        ctx.drawImage();
+    checkCollision(otherEntity) {
+
     }
 
-}
+    updateHealth(amount) {
+        this.health += amount;
+    }
 
+    movement(){
+        this.position.x += this.velocity.x;
+    }
+}
