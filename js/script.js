@@ -1,3 +1,4 @@
+//Qualquer coisa
 const canvas = document.getElementById("canvas");
 const bgdimensions = {
     width: 1024,
